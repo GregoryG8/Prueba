@@ -2,19 +2,24 @@
 const urlMap = {}; // Almacena las asociaciones entre URL acortadas y originales
 
 module.exports = async function (context, req) {
-  // Obtener la URL
-
+  // Obtiene la URL por query
   const originalUrl = req.query.url;
   const shortUrl = generarUrl(); // almacena la URL acortada a la const
-  const shortUrlCode = context.bindingData.shortUrlCode;
+  //const shortUrlCode = context.bindingData.shortUrlCode;
 
   if (originalUrl) {
-    context.res = {
-      status: 200,
-      body: `La URL recibida es: ${originalUrl}, URL acortada: http://localhost:7071/api/AcortarUrl/${shortUrl}`,
+    urlMap[shortUrl] = originalUrl; // Guarda en un objeto la relacion de la url cortada y original
+
+    // Crear un objeto JSON para la respuesta
+    const responseUrlJson = {
+      originalUrl: originalUrl,
+      shortUrl: `http://localhost:7071/api/AcortarUrl/${shortUrl}`,
     };
 
-    urlMap[shortUrl] = originalUrl;
+    context.res = {
+      status: 200,
+      body: responseUrlJson,
+    };
 
     // Almacenar en caché la asociación entre la URL acortada y la original
     //cache.put(shortUrl, originalUrl, 36000);
@@ -23,19 +28,23 @@ module.exports = async function (context, req) {
       status: 400,
       body: "No recibió ninguna URL",
     };
-
-    console.log(urlMap);
   }
 
-  //console.log(obtenerUrlOriginal(shortUrl));
+  // En el Body se mostrara las dos urls y en consola la relacion de las mismas
   console.log(urlMap);
-  console.log(shortUrlCode);
+
+  //console.log(obtenerUrlOriginal(shortUrl));
+  //console.log(urlMap);
+  //console.log(shortUrlCode);
 };
 
-//recuperar de cache
-//function obtenerUrlOriginal(shortCode) {
-  //return cache.get(shortCode); // Esto devuelve la URL original asociada al código
-//}
+/* Esta funcion era un complemento para guardar las urls en cache para acceder a ellas
+
+recuperar de cache
+function obtenerUrlOriginal(shortCode) {
+  return cache.get(shortCode); // Esto devuelve la URL original asociada al código
+}
+*/
 
 // Función que genera un codigo unico abreviando la URL
 function generarUrl() {
@@ -43,6 +52,8 @@ function generarUrl() {
   const codigoId = uuid.v4().substring(0, 7);
   return codigoId;
 }
+
+//Esto es un codigo alterno que quise probar con una tabla de servicio y azure storage ---------------------------
 
 /*const { v4: uuidv4 } = require('uuid');
 const azure = require('azure-storage');
