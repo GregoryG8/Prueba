@@ -19,6 +19,9 @@ module.exports = async function (context, req) {
     context.res = {
       status: 200,
       body: responseUrlJson,
+      headers: {
+        "Content-Type": "application/json", // Establecer el tipo de contenido como JSON
+      },
     };
 
     // Almacenar en caché la asociación entre la URL acortada y la original
@@ -26,11 +29,14 @@ module.exports = async function (context, req) {
   } else {
     context.res = {
       status: 400,
-      body: "No recibió ninguna URL",
+      body: { error: "No recibió ninguna URL" }, // Devuelve un objeto JSON de error 
+      headers: {
+        "Content-Type": "application/json", // Establecer el tipo de contenido como JSON
+      },
     };
   }
 
-  // En el Body se mostrara las dos urls y en consola la relacion de las mismas
+  // En el Body se mostrara en un objeto JSON las dos urls y en consola la relacion de las mismas
   console.log(urlMap);
 
   //console.log(obtenerUrlOriginal(shortUrl));
