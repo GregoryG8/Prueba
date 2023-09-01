@@ -1,0 +1,17 @@
+{
+  "name": "prueba",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "func start",
+    "test": "echo \"No tests yet...\""
+  },
+  "dependencies": {
+    "azure-storage": "^2.10.7",
+    "memory-cache": "^0.2.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.6.4"
+  }
+}
