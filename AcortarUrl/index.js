@@ -102,5 +102,7 @@ module.exports = async function (context, req) {
         };
         context.done();
     }
-};
+};"azure-storage": "^2.10.7
+azurite en otro terminal
+"memory-cache": "^0.2.0",
 */
