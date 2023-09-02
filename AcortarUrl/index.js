@@ -55,7 +55,7 @@ function obtenerUrlOriginal(shortCode) {
 // Función que genera un codigo unico abreviando la URL
 function generarUrl() {
   const uuid = require("uuid");
-  const codigoId = uuid.v4().substring(0, 7);
+  const codigoId = uuid.v1();
   return codigoId;
 }
 
